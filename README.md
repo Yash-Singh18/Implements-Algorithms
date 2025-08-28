@@ -1,3 +1,3 @@
 # Implement-Algorithms
 
-Implementing different algorithms inorder to improve my programming skills.
+Implementing different Data structures and Algorithms inorder to improve my programming skills.
