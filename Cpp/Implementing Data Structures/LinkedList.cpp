@@ -152,9 +152,13 @@ void insertbeforeval(node*& head){
     cout<< "Enter the value\n";
     cin>> val;
 
-    if(val==head->data){
-       head = insertstart(head);
-       return;
+    if(val == head->data){
+        int newval;
+        cout << "Enter the value you want to insert:\n";
+        cin >> newval;
+        node* newnode = new node(newval, head);
+        head = newnode;
+        return;
     }
 
     int newval;
@@ -174,9 +178,32 @@ void insertbeforeval(node*& head){
 }
 
 
-// void dltbeforeval(node* head){
-// - yet to be implemented
-// }
+void dltval(node*& head){
+     if(head==nullptr) return;
+     
+    
+     int val;
+     cout<< "Enter the value:\n";
+     cin>> val;
+     
+    if(head->data==val){
+       node* temp=head;
+       head=temp->next;
+       delete temp;
+       return;
+    }
+     node* temp=head;
+
+     while(temp->next!=nullptr){
+        if(temp->next->data==val){
+            node* store=temp->next;
+            temp->next=temp->next->next;
+            delete store;
+            return;
+        }
+        temp=temp->next;
+    }  
+}
 
 
 int main(){
@@ -208,7 +235,7 @@ int main(){
 
 
     while(true){
-        cout<< "\n1.Insert a Value at the start\n2.Delete Start\n3.Insert at end\n4.Delete end\n5.Insert at position\n6.Delete at position\n7.Insert element before value x\n8.\n9.Print the linked list\nAnything else to stop:\n";
+        cout<< "\n1.Insert a Value at the start\n2.Delete Start\n3.Insert at end\n4.Delete end\n5.Insert at position\n6.Delete at position\n7.Insert element before value x\n8.Delete node with value x\n9.Print the linked list\nAnything else to stop:\n";
         cin>> choice;
         switch(choice){
         case 1:
@@ -233,6 +260,7 @@ int main(){
             insertbeforeval(head);
             break;
         case 8:
+            dltval(head);
             break;
         case 9:
             printLL(head);
