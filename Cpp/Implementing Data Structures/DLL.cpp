@@ -12,7 +12,7 @@ struct node{
         data=data1;
         next=next1;
         prev=prev1;
-    }
+    } 
 };
 
 
@@ -31,9 +31,9 @@ void insertstart(node*& head){
     int val;
     cout<< "Enter value you want to insert:\n";
     cin>> val;
-
     node* newnode= new node(val,head,nullptr);
 
+    if(head!=nullptr) head->prev=newnode;
     head=newnode;
 }
 
@@ -76,19 +76,18 @@ void insertend(node*& head){
 
 void dltend(node*& head){
     if(head==nullptr) return;
-    else if(head->next==nullptr){
+    if(head->next==nullptr){
         dltstart(head);
         return;
     }
 
     node* temp=head;
 
-    while(temp->next->next!=nullptr){
+    while(temp->next!=nullptr){
         temp=temp->next;
     }
-
-    delete temp->next;
-    temp->next=nullptr;
+    temp->prev->next=nullptr; 
+    delete temp;
 }
 
 void insertpos(node*& head){
@@ -108,16 +107,17 @@ void insertpos(node*& head){
         node* temp=head;
         while(temp!=nullptr){
 
-              if(cnt==p-1){
-                newnode->next=temp->next;
-                newnode->prev=temp;
-                temp->next->next->prev=newnode;
-                temp->next=newnode;
+              if(cnt==p){
+                newnode->prev=temp->prev;
+                newnode->next=temp;
+                temp->prev->next=newnode;
+                temp->prev=newnode;
                 return;
             }
             temp=temp->next;
             cnt++;
         }
+        // inserting at the end need to implemented
     }
 }
 
@@ -141,11 +141,11 @@ void dltpos(node*& head){
 
 
     while(temp!=nullptr){
-        if(cnt==pos-1){
-            node* store = temp->next;
-            temp->next=temp->next->next;    
-            temp->next->next->prev=temp;
-            delete store;
+        if(cnt==pos){
+            temp->prev->next=temp->next;
+            if(temp->next!=nullptr)
+                temp->next->prev=temp->prev;
+            delete temp;
             return;
         }
         temp=temp->next;
@@ -208,16 +208,20 @@ void dltval(node*& head){
     }
      node* temp=head;
 
-     while(temp->next!=nullptr){
-        if(temp->next->data==val){
-            node* store=temp->next;
-            temp->next=temp->next->next;
-            temp->next->next->prev=temp;
-            delete store;
-            return;
+     while(temp!=nullptr){
+
+        if(temp->data==val){
+
+            if(temp->next==nullptr) dltend(head);
+            else{
+                temp->prev->next=temp->next;
+                temp->next->prev=temp->prev;
+                delete temp;
+                return;
+            }
         }
         temp=temp->next;
-    }  
+}
 }
 
 
