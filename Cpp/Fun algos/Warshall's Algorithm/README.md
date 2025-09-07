@@ -10,5 +10,5 @@ This was part of our **DSGT (Discrete Structures & Graph Theory)** curriculum.
 On exams, we usually solve this problem **by hand on paper**.  
 I thought: *if it can be done on paper, why not implement it on a computer too?* 💻  
 
-So, this project is just me translating the pen-and-paper Warshall’s algorithm into a working C++ implementation.  
+So, this program is just me translating the pen-and-paper Warshall’s algorithm into a working C++ implementation.  
 
