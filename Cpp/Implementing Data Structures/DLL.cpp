@@ -97,6 +97,73 @@ node* dltend(node* head){
     return head;
 }
 
+node* insertpos(node* head,int value,int pos){
+    if(head==nullptr){
+        if(pos==1){
+            head=new node(value);
+        }
+        return head;
+    }
+
+    if(pos==1){
+        head->prev=new node(value,head,nullptr);
+        head=head->prev;
+        return head;
+    }
+
+    int cnt=1;
+    node* temp=head;
+
+    while(temp!=nullptr){
+        
+        if(cnt==pos){
+           node* newnode= new node(value , temp , temp->prev);
+           temp->prev->next=newnode;
+           temp->prev=newnode;
+           return head; 
+        }
+        cnt++;
+        temp=temp->next;
+    }
+
+    return head;
+}
+
+node* dltpos(node* head ,int pos){
+    if (head==nullptr) return head;
+    if(head->next==nullptr){
+        if(pos==1){
+            delete head;
+            head=nullptr;
+        }
+        return head;
+    }
+
+    if(pos==1){
+        head=head->next;
+        delete head->prev;
+        head->prev=nullptr;
+        return head;
+    }
+
+    int cnt=1;
+    node* temp=head;
+
+    while(temp!=nullptr){
+
+        if(cnt==pos){
+            temp->prev->next = temp->next;
+            if(temp->next!=nullptr) temp->next->prev= temp->prev;
+            delete temp;
+            return head;
+        }
+        cnt++;
+        temp=temp->next;
+    }
+
+    return head;
+}
+
 void printdll(node* head){
     node* temp=head;
 
@@ -131,29 +198,29 @@ int main(){
 
     while(1){
         int choice;
-        cout<<"0 - Insert a newnode at beginning\n1 - Delete start\n2 - Insert at end\n3 - Delete end\n4 - Insert at position\n9 - Print the dll\n";
+        cout<<"0 - Insert a newnode at beginning\n1 - Delete start\n2 - Insert at end\n3 - Delete end\n4 - Insert at position\n5 - Delete position\n9 - Print the dll\n";
         cin>> choice;
         
         switch(choice){
-            case 0:
+            case 0:{
                 int val;
                 cout<< "Enter the value you want to insert:\n";
                 cin>> val;
                 head=insertatbegin(head,val);
-                break;
-            case 1:
-                dltstart(head);
-                break;
-            case 2:
+                break;}
+            case 1:{
+                head=dltstart(head);
+                break;}
+            case 2:{
                 int val;
                 cout<< "Enter the value you want to insert:\n";
                 cin>> val;
-                insertend(head,val);
-                break;
-            case 3:
-                dltend(head);
-                break;
-            case 4:
+                head= insertend(head,val);
+                break;}
+            case 3:{
+                head= dltend(head);
+                break;}
+            case 4:{
                 int pos;
                 cout<< "Enter the position you want to insert new node at:\n";
                 cin>> pos;
@@ -161,12 +228,19 @@ int main(){
                 cout<< "Enter the value you want to insert:\n";
                 cin>> val;
 
-                // insertpos(head,val,pos);
+                head=insertpos(head,val,pos);
                 break;
-                
-            case 9:
+            }   
+            case 5:{
+                int pos;
+                cout<< "Enter the position you want to insert new node at:\n";
+                cin>> pos;
+                head=dltpos(head,pos);
+            } 
+            case 9:{               
                 printdll(head);
                 break;
+            }
             default:
                 return 0;
         }
